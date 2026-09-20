@@ -11,7 +11,7 @@ permissions:
 jobs:
   ai-server:
     name: Go AI server
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     defaults:
       run:
         working-directory: ai-server
@@ -20,6 +20,7 @@ jobs:
       - uses: actions/setup-go@v7
         with:
           go-version-file: ai-server/go.mod
+          cache: false # no third-party dependencies, so there is nothing to cache
       - name: gofmt
         run: test -z "$(gofmt -l .)" || { gofmt -l .; exit 1; }
       - name: go vet
@@ -31,12 +32,13 @@ jobs:
 
   unity-core:
     name: Unity core + contract with the Go server
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-go@v7
         with:
           go-version-file: ai-server/go.mod
+          cache: false # no third-party dependencies, so there is nothing to cache
       - uses: actions/setup-dotnet@v6
         with:
           dotnet-version: 10.0.x
