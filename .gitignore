@@ -1,0 +1,25 @@
+# Unity
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Bb]uild/
+/[Bb]uilds/
+/[Ll]ogs/
+/[Uu]ser[Ss]ettings/
+/.vs/
+/.vscode/
+*.csproj
+*.sln
+*.slnx
+*.pidb.meta
+*.pdb.meta
+*.mdb.meta
+.DS_Store
+
+# Go
+/ai-server/bin/
+
+# Nakama (the docker volume is a named volume, so no DB files appear in the repo)
+
+# Nakama writes a per-node secret here at startup
+/nakama/data/.cookie
