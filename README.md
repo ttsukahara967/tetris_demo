@@ -4,6 +4,8 @@
 
 > **Unofficial project.** This is a hobby project made for learning. It is not affiliated with, endorsed by, or sponsored by The Tetris Company or any owner of the Tetris trademark. "Tetris" is a trademark of its respective owners.
 
+I have great respect for Tetris, and I built this project to learn from it. Thank you to everyone who created and has kept this game alive.
+
 Tetris with a single-player mode and a VS-CPU mode. The client is built with Unity, authentication and scores go through Nakama, and the CPU's decisions come from a hand-written Go server.
 
 ## Screenshots
@@ -114,9 +116,3 @@ Unity and Go must agree on all of the following.
   `Assets/Scripts/Editor/ProjectSetup.cs` sets it to `Always allowed` automatically.
 - The AI weights can be tuned through the constants in `ai-server/internal/ai/weights.go` alone.
 - In versus mode, clearing 2 lines sends 1 garbage line to the opponent, 3 lines send 2, and 4 lines send 4 (incoming garbage is cancelled first).
-
-## License
-
-The original code in this repository is released under the [MIT License](LICENSE).
-Unity's project template files (for example `Assets/TutorialInfo` and `Assets/Settings`) and the packages
-installed through the Package Manager, including the Nakama Unity SDK, remain under their own licenses.
