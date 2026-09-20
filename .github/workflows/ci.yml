@@ -1,0 +1,57 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  ai-server:
+    name: Go AI server
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ai-server
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-go@v7
+        with:
+          go-version-file: ai-server/go.mod
+      - name: gofmt
+        run: test -z "$(gofmt -l .)" || { gofmt -l .; exit 1; }
+      - name: go vet
+        run: go vet ./...
+      - name: go test
+        run: go test -race -count=1 ./...
+      - name: Docker image builds
+        run: docker build -t ai-server .
+
+  unity-core:
+    name: Unity core + contract with the Go server
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-go@v7
+        with:
+          go-version-file: ai-server/go.mod
+      - uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: 10.0.x
+      - name: Build and start the Go AI server
+        working-directory: ai-server
+        run: |
+          go build -o aiserver ./cmd/aiserver
+          ./aiserver &
+          for i in $(seq 1 20); do
+            curl -fsS http://127.0.0.1:8090/healthz && exit 0
+            sleep 0.5
+          done
+          echo "AI server did not start" >&2
+          exit 1
+      - name: Run the Unity core tests and the integration test
+        env:
+          AI_SERVER_URL: http://127.0.0.1:8090
+        run: dotnet test ci/CoreTests --nologo --logger "console;verbosity=normal"

@@ -23,3 +23,8 @@
 
 # Nakama writes a per-node secret here at startup
 /nakama/data/.cookie
+
+# dotnet test project used by CI (the *.csproj rule above is meant for Unity-generated projects)
+!/ci/CoreTests/CoreTests.csproj
+/ci/CoreTests/bin/
+/ci/CoreTests/obj/

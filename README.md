@@ -1,5 +1,7 @@
 # tetris_demo
 
+[![CI](https://github.com/ttsukahara967/tetris_demo/actions/workflows/ci.yml/badge.svg)](https://github.com/ttsukahara967/tetris_demo/actions/workflows/ci.yml)
+
 Tetris with a single-player mode and a VS-CPU mode. The client is built with Unity, authentication and scores go through Nakama, and the CPU's decisions come from a hand-written Go server.
 
 ## Screenshots
@@ -61,8 +63,19 @@ Connection settings and the fixed account are in [ServerConfig.cs](Assets/Script
 cd ai-server && go test ./...    # board simulation, evaluation, search, API, and a self-play run
 ```
 
-On the Unity side, use Window > General > Test Runner > EditMode
+The Unity core and its EditMode tests also run outside the Editor with plain `dotnet`.
+With the AI server running on port 8090, this also plays a full game through the real server
+to check the Unity/Go coordinate contract:
+
+```bash
+AI_SERVER_URL=http://127.0.0.1:8090 dotnet test ci/CoreTests
+```
+
+Without `AI_SERVER_URL`, the integration test is skipped. Inside Unity, use Window > General > Test Runner > EditMode
 (`Assets/Tests/EditMode`: rules, board, and AI protocol tests).
+
+CI ([ci.yml](.github/workflows/ci.yml)) runs the Go checks, builds the Docker image, and runs the dotnet tests against a freshly built AI server.
+It does not build the Unity project itself, because that needs a Unity license.
 
 ## Coordinate contract between Unity and the AI server
 
@@ -84,3 +97,9 @@ Unity and Go must agree on all of the following.
   `Assets/Scripts/Editor/ProjectSetup.cs` sets it to `Always allowed` automatically.
 - The AI weights can be tuned through the constants in `ai-server/internal/ai/weights.go` alone.
 - In versus mode, clearing 2 lines sends 1 garbage line to the opponent, 3 lines send 2, and 4 lines send 4 (incoming garbage is cancelled first).
+
+## License
+
+The original code in this repository is released under the [MIT License](LICENSE).
+Unity's project template files (for example `Assets/TutorialInfo` and `Assets/Settings`) and the packages
+installed through the Package Manager, including the Nakama Unity SDK, remain under their own licenses.

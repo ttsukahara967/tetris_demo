@@ -1,6 +1,8 @@
 using NUnit.Framework;
 using Tetris.Core;
+#if UNITY_5_3_OR_NEWER
 using UnityEngine;
+#endif
 
 namespace Tetris.Tests
 {
@@ -24,6 +26,8 @@ namespace Tetris.Tests
             StringAssert.DoesNotContain("nextPiece", json);
         }
 
+#if UNITY_5_3_OR_NEWER
+        // JsonUtility only exists inside Unity, so the dotnet CI project skips this test.
         [Test]
         public void ResponseParsesWithJsonUtility()
         {
@@ -32,5 +36,6 @@ namespace Tetris.Tests
             Assert.AreEqual(2, resp.rotation);
             Assert.AreEqual("ok", resp.reasoning);
         }
+#endif
     }
 }
