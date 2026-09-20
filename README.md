@@ -2,6 +2,8 @@
 
 [![CI](https://github.com/ttsukahara967/tetris_demo/actions/workflows/ci.yml/badge.svg)](https://github.com/ttsukahara967/tetris_demo/actions/workflows/ci.yml)
 
+> **Unofficial project.** This is a hobby project made for learning. It is not affiliated with, endorsed by, or sponsored by The Tetris Company or any owner of the Tetris trademark. "Tetris" is a trademark of its respective owners.
+
 Tetris with a single-player mode and a VS-CPU mode. The client is built with Unity, authentication and scores go through Nakama, and the CPU's decisions come from a hand-written Go server.
 
 ## Screenshots
