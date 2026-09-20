@@ -26,6 +26,21 @@ Tetris with a single-player mode and a VS-CPU mode. The client is built with Uni
 | `nakama/` | Nakama + PostgreSQL (authentication, leaderboard) | Docker |
 | `ai-server/` | CPU opponent AI in Go (`POST /api/move`) | Docker (or `go run` on the host during development) |
 
+## Requirements
+
+- **Unity 6000.6.2f1**, installed through Unity Hub. Other versions may work, but Unity will offer to upgrade or downgrade the project.
+- **Git on your `PATH`, and network access on the first open.** The Nakama Unity SDK is installed by the Package Manager straight from GitHub (see `Packages/manifest.json`).
+- **Docker** (Docker Desktop or any engine with Compose) for Nakama and the AI server.
+- Optional: Go 1.26 and the .NET 10 SDK, only if you want to run the tests outside Docker and Unity.
+
+What works without the servers:
+
+| Server | Without it |
+|---|---|
+| none | Single play works. |
+| AI server (port 8090) | VS CPU still starts, but the CPU does not think: it just drops each piece where it spawns. The screen shows an "AI server error" message. |
+| Nakama (port 7350) | The game plays, but scores are not submitted and the ranking is unavailable. The status line at the bottom shows "Nakama: offline". |
+
 ## Getting started
 
 ```bash
@@ -33,7 +48,7 @@ cd nakama && docker compose up -d              # Nakama + PostgreSQL
 cd ai-server && docker compose up -d --build   # AI server
 ```
 
-Then press Play in Unity, in any scene, and the menu appears. No scene editing is needed:
+Then open `Assets/Scenes/SampleScene` in Unity and press Play, and the menu appears. No scene editing is needed:
 `GameBootstrap` creates the game at runtime.
 
 | Key | Action |
